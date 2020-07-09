@@ -1,0 +1,1 @@
+document.write("Hello! I am an alert box!!");
