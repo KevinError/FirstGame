@@ -1,1 +1,1 @@
-document.write("Hello! I am an alert box!!");
+document.write("I'm smexy af");
