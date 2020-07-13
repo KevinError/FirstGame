@@ -1,9 +1,40 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Snake Game</title>
+        <title>Snake Doggo</title>
+        <style>
+        body {
+          height: 200vh;
+          width: : 200vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          margin: 0;
+          background-color: white;
+        }
+          #snake-boarddoggo {
+            border: 10px solid pink;
+            background-color: #CCC;
+            height: 100vmin;
+            width: 100vmin;
+            display: grid;
+            grid-template-rows: repeat(25, 1fr);
+            grid-template-columns: repeat(25, 1fr);
+          }
+          .snakedoggo {
+            background-color: hsl(200, 100%, 50%);
+            border: .25vmin solid black;
+          }
+          .fooddoggo {
+            background-color: hsl(50, 100%, 50%);
+            border: .25vmin solid black;
+          }
+          </style>
+          <script src="snake.js" defer type="module"></script>
     </head>
+
     <body>
-        
+        <canvas id="snakeDoggo" width="800" height="600"></canvas>
+
     </body>
 </html>
