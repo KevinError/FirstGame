@@ -32,10 +32,8 @@ down.src = "audio/down.mp3";
 snake = new Snake();
 fruit = new Fruit();
 fruit.update();
-var a = 0;
 
 var interval = (() => {
-    console.log(a++);
     ctx.drawImage(ground, 0, 0);
     fruit.draw();
     snake.draw();
@@ -51,10 +49,8 @@ var interval = (() => {
     }
 
     if (snake.isCollided()){
-        console.log("Boom: " + a);
         clearInterval(game); // TODO: try other way
         dead.play();
-        console.log("Exit: " + a);
         alert("Game Over!");
     }
 
@@ -66,7 +62,7 @@ var interval = (() => {
 window.addEventListener("keydown", ((evt) => {
     snake.changeDirection(evt.keyCode);
 }))
-let game = setInterval(interval, 100); // repeats every 1sec
+let game = setInterval(interval, 100); // repeats every 0.1sec
 
 
 
