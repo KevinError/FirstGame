@@ -1,33 +1,72 @@
 const canvas = document.querySelector(".canvas");
 const ctx = canvas.getContext("2d");
-const scale = 10;
-const rows = canvas.height / scale;
-const columns = canvas.width / scale;
-var snake;
 
-(function setup() {
-  snake = new Snake();
-  fruit = new Fruit();
-  fruit.pickLocation();
+// size of the pix
+const PIX = 32;
 
-  window.setInterval(() => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+// load images
+
+const ground = new Image();
+ground.src = "image/ground.png";
+
+const foodImg = new Image();
+foodImg.src = "image/rem1.png";
+
+// load audio files
+
+let dead = new Audio();
+let eat = new Audio();
+let up = new Audio();
+let right = new Audio();
+let left = new Audio();
+let down = new Audio();
+
+dead.src = "audio/dead.mp3";
+eat.src = "audio/eat.mp3";
+up.src = "audio/up.mp3";
+right.src = "audio/right.mp3";
+left.src = "audio/left.mp3";
+down.src = "audio/down.mp3";
+
+// create instance of snake and fruit
+snake = new Snake();
+fruit = new Fruit();
+fruit.update();
+var a = 0;
+
+var interval = (() => {
+    console.log(a++);
+    ctx.drawImage(ground, 0, 0);
     fruit.draw();
-    snake.update();
     snake.draw();
-
-    if (snake.eat(fruit)) {
-      fruit.pickLocation();
+    snake.update();
+    if (snake.eat(fruit.x, fruit.y))
+    {
+        snake.score++;
+        eat.play();
+        fruit.update();
+    }
+    else {
+        snake.tail.pop();
     }
 
-    snake.checkCollision();
-    document.querySelector('.score')
-      .innerText = snake.total;
+    if (snake.isCollided()){
+        console.log("Boom: " + a);
+        clearInterval(game); // TODO: try other way
+        dead.play();
+        console.log("Exit: " + a);
+        alert("Game Over!");
+    }
 
-  }, 250);
-}());
+    snake.displayScore();
 
-window.addEventListener('keydown', ((evt) => {
-  const direction = evt.key.replace('Arrow', '');
-  snake.changeDirection(direction);
-}));
+})
+
+// set eventlistener for keydown
+window.addEventListener("keydown", ((evt) => {
+    snake.changeDirection(evt.keyCode);
+}))
+let game = setInterval(interval, 100); // repeats every 1sec
+
+
+

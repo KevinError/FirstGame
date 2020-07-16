@@ -1,90 +1,105 @@
-
 class Snake {
-    constructor() {
-        this.x = 0;
-        this.y = 0;
-        this.xSpeed = scale * 1;
-        this.ySpeed = 0;
-        this.total = 0;
-        this.tail = [];
+    constructor(){
+        // head ? 
+        this.x = 9 * PIX;
+        this.y = 10 * PIX;
+        this.d = '';
+        this.score = 0;
+        this.tail = [{x : this.x, y : this.y}];
 
-        this.draw = function () {
-            ctx.fillStyle = "#FFFFFF";
-            for (let i = 0; i < this.tail.length; i++) {
-                ctx.fillRect(this.tail[i].x,
-                    this.tail[i].y, scale, scale);
-            }
+    }
 
-            ctx.fillRect(this.x, this.y, scale, scale);
-        };
+    changeDirection(keyCode) {
+        if(keyCode == 37 && this.d != "RIGHT"){
+            left.play();
+            this.d = "LEFT";
+        } 
+        else if(keyCode == 38 && this.d != "DOWN"){
+            this.d = "UP";
+            up.play();
+        } 
+        else if(keyCode == 39 && this.d != "LEFT"){
+            this.d = "RIGHT";
+            right.play();
+        } 
+        else if(keyCode == 40 && this.d != "UP"){
+            this.d = "DOWN";
+            down.play();
+        }
+    }
 
-        this.update = function () {
-            for (let i = 0; i < this.tail.length - 1; i++) {
-                this.tail[i] = this.tail[i + 1];
-            }
+    /*
+    / updates the coordinates of head of the snake and push it into the array as the first element.
+    */ 
+    update(){
+        switch(this.d) {
+            case 'LEFT':
+                this.x -= PIX;
+            break;
+            case 'RIGHT':
+                this.x += PIX;
+            break;
+            case 'UP':
+                this.y -= PIX;
+            break;
+            case 'DOWN':
+                this.y += PIX;
+            break;
+        }
 
-            this.tail[this.total - 1] =
-                { x: this.x, y: this.y };
+        this.tail.unshift({x : this.x, y : this.y});
 
-            this.x += this.xSpeed;
-            this.y += this.ySpeed;
 
-            if (this.x > canvas.width) {
-                this.x = 0;
-            }
+    }
 
-            if (this.y > canvas.height) {
-                this.y = 0;
-            }
-
-            if (this.x < 0) {
-                this.x = canvas.width;
-            }
-
-            if (this.y < 0) {
-                this.y = canvas.height;
-            }
-        };
-
-        this.changeDirection = function (direction) {
-            switch (direction) {
-                case 'Up':
-                    this.xSpeed = 0;
-                    this.ySpeed = -scale * 1;
-                    break;
-                case 'Down':
-                    this.xSpeed = 0;
-                    this.ySpeed = scale * 1;
-                    break;
-                case 'Left':
-                    this.xSpeed = -scale * 1;
-                    this.ySpeed = 0;
-                    break;
-                case 'Right':
-                    this.xSpeed = scale * 1;
-                    this.ySpeed = 0;
-                    break;
-            }
-        };
-
-        this.eat = function (fruit) {
-            if (this.x === fruit.x &&
-                this.y === fruit.y) {
-                this.total++;
+    //collsion
+    isCollided() {
+        for (let i = 1; i < this.tail.length; i++)
+        {
+            if (this.x == this.tail[i].x && this.y == this.tail[i].y)
+            {
+                console.log("Hello"+ this.tail.length);
                 return true;
             }
+        }
 
-            return false;
-        };
+        if(this.x < PIX || this.x > 17 * PIX || this.y < 3 * PIX || this.y > 17 * PIX) {return true;}
 
-        this.checkCollision = function () {
-            for (var i = 0; i < this.tail.length; i++) {
-                if (this.x === this.tail[i].x &&
-                    this.y === this.tail[i].y) {
-                    this.total = 0;
-                    this.tail = [];
-                }
-            }
-        };
+        return false;
     }
+
+    /*
+    / if the coordinate of head of the snake is same as the coordinate of the fruit, then return true. 
+    / Otherwise, return false.
+    */
+    eat(fruitX, fruitY) {
+        if(this.x == fruitX && this.y == fruitY){
+            return true;
+        }
+        return false;
+    }
+
+    /*
+    / display the score on the board
+    */
+    displayScore(){
+        ctx.fillStyle = "white";
+        ctx.font = "45px Changa one";
+        ctx.fillText(this.score,2 * PIX,1.6 * PIX);
+    }
+
+
+    /*
+    / draws the snake on the board
+    / for loop goes through the list and draws the white box based on each element's x and y value.
+    */
+   draw() {
+    for (let i = 0; i < this.tail.length; i++){
+        ctx.fillStyle = ( i == 0 )? "green" : "white";
+        ctx.fillRect(this.tail[i].x, this.tail[i].y, PIX, PIX);
+        
+        ctx.strokeStyle = "red";
+        ctx.strokeRect(this.tail[i].x, this.tail[i].y, PIX, PIX);
+    }
+}
 }
