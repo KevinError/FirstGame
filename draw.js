@@ -12,6 +12,9 @@ ground.src = "image/ground.png";
 const foodImg = new Image();
 foodImg.src = "image/rem1.png";
 
+const bombImg = new Image();
+bombImg.src = "imge/bomb.jpg";
+
 // load audio files
 
 let dead = new Audio();
@@ -30,15 +33,18 @@ down.src = "audio/down.mp3";
 
 // create instance of snake and fruit
 snake = new Snake();
-fruit = new Fruit();
-fruit.update();
+
+items = {
+    fruit: new Item(),
+    bomb : new Item()
+};
 
 var interval = (() => {
     ctx.drawImage(ground, 0, 0);
     fruit.draw();
     snake.draw();
     snake.update();
-    if (snake.eat(fruit.x, fruit.y))
+    if (snake.eatItem(fruit.x, fruit.y))
     {
         snake.score++;
         eat.play();
