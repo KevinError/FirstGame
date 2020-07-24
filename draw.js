@@ -13,7 +13,7 @@ const foodImg = new Image();
 foodImg.src = "image/rem1.png";
 
 const bombImg = new Image();
-bombImg.src = "imge/bomb.jpg";
+bombImg.src = "image/bomb_small.jpg";
 
 // load audio files
 
@@ -39,23 +39,31 @@ items = {
     bomb : new Item()
 };
 
+
 var interval = (() => {
     ctx.drawImage(ground, 0, 0);
-    fruit.draw();
+    items.fruit.draw(foodImg);
+    items.bomb.draw(bombImg);
     snake.draw();
     snake.update();
-    if (snake.eatItem(fruit.x, fruit.y))
+    if (snake.eatItem(items.fruit.x, items.fruit.y))
     {
         snake.score++;
         eat.play();
-        fruit.update();
+        items.fruit.update();
     }
     else {
         snake.tail.pop();
     }
 
-    if (snake.isCollided()){
-        clearInterval(game); // TODO: try other way
+    if (snake.eatItem(items.bomb.x, items.bomb.y))
+    {
+        snake.tail.pop();
+        items.bomb.update();
+    }
+
+    if (snake.isCollided() || snake.tail.length == 0){
+        clearInterval(game);
         dead.play();
         alert("Game Over!");
     }
