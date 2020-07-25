@@ -7,13 +7,13 @@ const PIX = 32;
 // load images
 
 const ground = new Image();
-ground.src = "image/ground.png";
+ground.src = "assets/image/ground.png";
 
 const foodImg = new Image();
-foodImg.src = "image/rem1.png";
+foodImg.src = "assets/image/rem2.png";
 
 const bombImg = new Image();
-bombImg.src = "image/bomb_small.jpg";
+bombImg.src = "assets/image/bomb_small.jpg";
 
 // load audio files
 
@@ -23,13 +23,16 @@ let up = new Audio();
 let right = new Audio();
 let left = new Audio();
 let down = new Audio();
+let bomb = new Audio();
 
-dead.src = "audio/dead.mp3";
-eat.src = "audio/eat.mp3";
-up.src = "audio/up.mp3";
-right.src = "audio/right.mp3";
-left.src = "audio/left.mp3";
-down.src = "audio/down.mp3";
+dead.src = "assets/audio/dead.mp3";
+eat.src = "assets/audio/eat.mp3";
+bomb.src = "assets/audio/boom.mp3";
+// Direction
+up.src = "assets/audio/up.mp3";
+right.src = "assets/audio/right.mp3";
+left.src = "assets/audio/left.mp3";
+down.src = "assets/audio/down.mp3";
 
 // create instance of snake and fruit
 snake = new Snake();
@@ -58,6 +61,7 @@ var interval = (() => {
 
     if (snake.eatItem(items.bomb.x, items.bomb.y))
     {
+        bomb.play();
         snake.tail.pop();
         items.bomb.update();
     }

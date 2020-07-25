@@ -95,7 +95,7 @@ class Snake {
     */
    draw() {
     for (let i = 0; i < this.tail.length; i++){
-        ctx.fillStyle = ( i == 0 )? "green" : "white";
+        ctx.fillStyle = ( i == 0 )? "green" : "blue";
         ctx.fillRect(this.tail[i].x, this.tail[i].y, PIX, PIX);
         
         ctx.strokeStyle = "red";
