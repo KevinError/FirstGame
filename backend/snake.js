@@ -69,11 +69,11 @@ class Snake {
     }
 
     /*
-    / if the coordinate of head of the snake is same as the coordinate of the fruit, then return true. 
+    / if the coordinate of head of the snake is same as the coordinate of the item, then return true. 
     / Otherwise, return false.
     */
-    eat(fruitX, fruitY) {
-        if(this.x == fruitX && this.y == fruitY){
+    eatItem(itemX, itemY) {
+        if(this.x == itemX && this.y == itemY){
             return true;
         }
         return false;
@@ -95,7 +95,7 @@ class Snake {
     */
    draw() {
     for (let i = 0; i < this.tail.length; i++){
-        ctx.fillStyle = ( i == 0 )? "green" : "white";
+        ctx.fillStyle = ( i == 0 )? "green" : "blue";
         ctx.fillRect(this.tail[i].x, this.tail[i].y, PIX, PIX);
         
         ctx.strokeStyle = "red";
